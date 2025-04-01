@@ -63,14 +63,14 @@ void notifyCallback(BLERemoteCharacteristic* pBLERemoteCharacteristic, uint8_t* 
     
     // You can process all samples here or send them to another task
     // Example: calculate average acceleration magnitude
-    float totalMag = 0;
-    for (int i = 0; i < numSamples; i++) {
-      float mag = sqrt(pow(sensorData[i].ax, 2) + 
-                       pow(sensorData[i].ay, 2) + 
-                       pow(sensorData[i].az, 2));
-      totalMag += mag;
-    }
-    Serial.printf("Average acceleration magnitude: %.2f\n", totalMag / numSamples);
+    // float totalMag = 0;
+    // for (int i = 0; i < numSamples; i++) {
+    //   float mag = sqrt(pow(sensorData[i].ax, 2) + 
+    //                    pow(sensorData[i].ay, 2) + 
+    //                    pow(sensorData[i].az, 2));
+    //   totalMag += mag;
+    // }
+    // Serial.printf("Average acceleration magnitude: %.2f\n", totalMag / numSamples);
   } else {
     Serial.printf("Received notification with unexpected length: %d\n", length);
   }
