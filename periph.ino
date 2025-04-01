@@ -117,7 +117,7 @@ void enableHighSamplingRate() {
   kxAccel.enableAccel(false);
   kxAccel.setRange(SFE_KX134_RANGE64G);
   kxAccel.enableDataEngine();
-  kxAccel.setOutputDataRate(11);  // Set to a value corresponding to ~8KHz
+  kxAccel.setOutputDataRate(14);  // Set to a value corresponding to ~8KHz
   kxAccel.enableAccel();
 }
 
