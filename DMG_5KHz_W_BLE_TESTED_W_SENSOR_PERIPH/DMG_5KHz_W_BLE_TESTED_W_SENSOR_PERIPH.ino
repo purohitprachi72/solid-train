@@ -36,6 +36,7 @@ void setup() {
 
   Serial.begin(115200);
   Serial.println("In setup");
+  Serial.flush();
 
   if (!kxAccel.begin(chipSelect)) {
     Serial.println("Could not communicate with the KX134. Freezing");
@@ -76,8 +77,11 @@ void setup() {
 
   Bluefruit.Advertising.restartOnDisconnect(true);
   Bluefruit.Advertising.setInterval(244, 244);  // 20 ms to 152.5 ms interval
-  Bluefruit.Advertising.setFastTimeout(1);    // Fast advertising for 30 seconds
-  Bluefruit.Advertising.start(0);              // Continuous advertising
+  Bluefruit.Advertising.setFastTimeout(1);      // Fast advertising for 30 seconds
+  Bluefruit.Advertising.start(0);               // Continuous advertising
+
+  Serial.println("Started advertising...");
+  Serial.flush();
 }
 
 void loop() {
@@ -107,25 +111,37 @@ void loop() {
     }
 
     if (connected_flag && buffer_not_empty()) {
+
+      Serial.println("Sending samples over BLE...");
+
       sendBufferInBatches();
       // if all values sent then
       valuesSent = true;
+
+      Serial.println("Sent!");
     } else {
       startSampling = true;
     }
+
+    Serial.flush();
   }
 
   if (valuesSent) {
-    // Bluefruit.disconnect();
-    // Bluefruit.stop.Advertising();
+
+    Serial.println("Completed. Shutting down sensor and starting advertising...");
+
+    Bluefruit.Connection(0)->disconnect();
+    Bluefruit.Advertising.stop();
     kxAccel.enableAccel(false);
     startSampling = true;
     valuesSent = false;
     bufIndex = 0;
-    // Bluefruit.start.advertising(0);
+    Bluefruit.Advertising.start(0);
+
+    Serial.println("Started Advertising!");
+    Serial.flush();
   }
 }
-
 
 void connect_cb(uint16_t conn_handle) {
   // set_timeout = 30 seconds;
